@@ -37,4 +37,6 @@ app.use(( erro, req, resp, next) => {
 		require('../app/views/base/erros/500.marko')
 	); 
 }); 
+
 module.exports = app;
+
