@@ -42,26 +42,23 @@ module.exports = (app) => {
                 .catch(erro => console.log(erro));
     });
 
-    app.post('/livros', [
-        check('titulo').isLength({ min: 5 }), 
-        check('preco').isCurrency()
-
-
-        ], function(req, resp) {
+    //express-validator 
+    app.post('/livros', [ check('titulo').isLength({ min: 5 }), check('preco').isCurrency() ], ( req, resp ) => {
         
         console.log(req.body);
+
         const livroDao = new LivroDao(db);
-        
+
+         //const for validationResult
         const erros = validationResult(req)
 
+        //conditional isEmpty()
         if(!erros.isEmpty()) {
             return resp.marko(
                 require( '../views/livros/form/form.marko'),
                 { livro: {} }
            )
         }; 
-
-
 
         livroDao.adiciona(req.body)
                 .then(resp.redirect('/livros'))
@@ -85,4 +82,4 @@ module.exports = (app) => {
                 .then(() => resp.status(200).end())
                 .catch(erro => console.log(erro));
     });
-};
+    };
