@@ -23,4 +23,17 @@ app.use(methodOverride(function (req, res) {
 const rotas = require('../app/rotas/rotas');
 rotas(app);
 
+
+app.use(( req, resp, next) => {
+	return resp.status( 404 ).marko(
+		require('../app/views/base/erros/404.marko')
+	); 
+}); 
+
+// middleware
+app.use(( erro, req, resp, next) => {
+	return resp.status( 500 ).marko(
+		require('../app/views/base/erros/500.marko')
+	); 
+}); 
 module.exports = app;
