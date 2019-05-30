@@ -41,7 +41,9 @@ module.exports = (app) => {
     });
 
     //express-validator 
-    app.post('/livros', [ check('titulo').isLength({ min: 5 }), check('preco').isCurrency() ], ( req, resp ) => {
+    app.post('/livros', [ 
+        check('titulo').isLength({ min: 5 }).withMessage('O titulo precisa ter no minimo  caracteres'), 
+        check('preco').isCurrency().withMessage( 'o preco precisar ter um valor monetario valido! ') ], ( req, resp ) => {
         
         console.log(req.body);
 
@@ -54,7 +56,12 @@ module.exports = (app) => {
         if(!erros.isEmpty()) {
             return resp.marko(
                 require( '../views/livros/form/form.marko'),
-                { livro: {} }
+                { 
+                    livro: {}, 
+                    errosValidacao: erros.array()
+
+                    
+             }
            )
         }; 
 
