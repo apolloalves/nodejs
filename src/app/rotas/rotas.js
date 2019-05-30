@@ -2,8 +2,6 @@ const LivroDao = require('../infra/livro-dao');
 const db = require('../../config/database');
 const { check, validationResult } = require('express-validator/check');
 
-
-
 module.exports = (app) => {
     app.get('/', function(req, resp) {
         resp.marko(
