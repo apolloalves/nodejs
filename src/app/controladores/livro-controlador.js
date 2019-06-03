@@ -57,7 +57,7 @@ class LivroControlador {
                         { livro: livro }
                     )
                 )
-                .catch(erro => console.log(erro));
+                .catch(erro => console.log( erro ));
   		}
 
 	}
@@ -65,15 +65,15 @@ class LivroControlador {
 cadastra() {
 	return ( req, resp ) => {
         
-        console.log(req.body);
+        console.log( req.body );
 
-        const livroDao = new LivroDao(db);
+        const livroDao = new LivroDao( db );
 
          //const for validationResult
-        const erros = validationResult(req)
+        const erros = validationResult( req )
 
         //conditional isEmpty()
-        if(!erros.isEmpty()) {
+        if ( !erros.isEmpty() ) {
             return resp.marko(
                 require( '../views/livros/form/form.marko'),
                 { 
@@ -85,21 +85,21 @@ cadastra() {
            )
         }; 
 
-        livroDao.adiciona(req.body)
-                .then(resp.redirect(LivroControlador.rotas().lista))
-                .catch(erro => console.log(erro));
+        livroDao.adiciona( req.body )
+                .then( resp.redirect(LivroControlador.rotas().lista ))
+                .catch(erro => console.log( erro ));
     }
 
 }
 
 edita() {
-	return (req, resp) => {
+	return ( req, resp ) => {
         console.log( req.body );
         const livroDao = new LivroDao( db );
         
         livroDao.atualiza(req.body)
-                .then(resp.redirect(LivroControlador.rotas().lista))
-                .catch(erro => console.log(erro));
+                .then( resp.redirect(LivroControlador.rotas().lista ))
+                .catch(erro => console.log( erro ));
     };
 
 };
@@ -108,7 +108,7 @@ remove() {
 	return ( req, resp ) => {
         const id = req.params.id;
 
-        const livroDao = new LivroDao(db);
+        const livroDao = new LivroDao( db );
         livroDao.remove(id)
                 .then(() => resp.status( 200 ).end())
                 .catch( erro => console.log( erro ));
