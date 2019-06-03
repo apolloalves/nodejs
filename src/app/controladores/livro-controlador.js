@@ -5,6 +5,17 @@ const db = require('../../config/database')
 
 class LivroControlador {
 
+	static rotas() {
+		return {
+			lista: '/livros', 
+			cadastro: '/livros/form', 
+			edicao: '/livros/form/:id', 
+			delecao: '/livros/:id'
+		
+		};
+
+	}
+
   lista () {
     return ( req, resp ) => {
       const livroDao = new LivroDao( db )
@@ -51,7 +62,6 @@ class LivroControlador {
 
 	}
 
-
 cadastra() {
 	return ( req, resp ) => {
         
@@ -76,7 +86,7 @@ cadastra() {
         }; 
 
         livroDao.adiciona(req.body)
-                .then(resp.redirect('/livros'))
+                .then(resp.redirect(LivroControlador.rotas().lista))
                 .catch(erro => console.log(erro));
     }
 
@@ -88,7 +98,7 @@ edita() {
         const livroDao = new LivroDao( db );
         
         livroDao.atualiza(req.body)
-                .then(resp.redirect('/livros'))
+                .then(resp.redirect(LivroControlador.rotas().lista))
                 .catch(erro => console.log(erro));
     };
 
