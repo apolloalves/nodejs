@@ -6,14 +6,18 @@ class LivroControlador {
   lista () {
     return ( req, resp ) => {
       const livroDao = new LivroDao( db )
-      livroDao.lista()
+      
+       livroDao.lista()
         .then(livros => resp.marko(
           require('../views/livros/lista/lista.marko'),
+
           {
             livros: livros
           }
+
         ))
         .catch( erro => console.log( erro ) )
+    	
     	}
   };
 
@@ -28,7 +32,24 @@ class LivroControlador {
   	}
   }
 
+  formularioEdicao() {
+  	return ( req, resp ) => {
+        const id = req.params.id;
+        const livroDao = new LivroDao( db );
+
+        livroDao.buscaPorId(id)
+                .then(livro => 
+                    resp.marko(
+                        require('../views/livros/form/form.marko'), 
+                        { livro: livro }
+                    )
+                )
+                .catch(erro => console.log(erro));
+  		}
+
+	}
 
 }
+
 module.exports = LivroControlador
 //end class 
