@@ -6,18 +6,16 @@ const { check, validationResult } = require('express-validator/check');
 const LivroControlador = require( '../controladores/livro-controlador.js')
 const livroControlador = new LivroControlador() 
 
-module.exports = (app) => {
-    app.get('/', function(req, resp) {
+module.exports = ( app ) => {
+    app.get( '/', function( req, resp ) {
         resp.marko(
-            require('../views/base/home/home.marko')
+            require( '../views/base/home/home.marko' )
         );
     });
     
-    app.get('/livros', livroControlador.lista()); 
+    app.get( '/livros', livroControlador.lista() ); 
 
-    app.get('/livros/form', function(req, resp) {
-        resp.marko(require('../views/livros/form/form.marko'), { livro: {} });
-    });
+    app.get('/livros/form', livroControlador.formularioCadastro() );
 
     app.get('/livros/form/:id', function(req, resp) {
         const id = req.params.id;

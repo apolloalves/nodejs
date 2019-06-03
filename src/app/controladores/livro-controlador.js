@@ -17,8 +17,18 @@ class LivroControlador {
     	}
   };
 
+  formularioCadastro() {
+  	return function(req, resp) {
+        resp.marko(require('../views/livros/form/form.marko'), 
+        	{ 
+        		livro: {} 
+        	}
+		);
+
+  	}
+  }
 
 
 }
-//end class 
 module.exports = LivroControlador
+//end class 
