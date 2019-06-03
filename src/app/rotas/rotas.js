@@ -2,6 +2,10 @@ const LivroDao = require('../infra/livro-dao');
 const db = require('../../config/database');
 const { check, validationResult } = require('express-validator/check');
 
+
+const LivroControlador = require( '../controladores/livro-controlador.js')
+const livroControlador = new LivroControlador() 
+
 module.exports = (app) => {
     app.get('/', function(req, resp) {
         resp.marko(
@@ -9,18 +13,7 @@ module.exports = (app) => {
         );
     });
     
-    app.get('/livros', function(req, resp) {
-
-        const livroDao = new LivroDao(db);
-        livroDao.lista()
-                .then(livros => resp.marko(
-                    require('../views/livros/lista/lista.marko'),
-                    {
-                        livros: livros
-                    }
-                ))
-                .catch(erro => console.log(erro));
-    });
+    app.get('/livros', livroControlador.lista()); 
 
     app.get('/livros/form', function(req, resp) {
         resp.marko(require('../views/livros/form/form.marko'), { livro: {} });
@@ -42,7 +35,7 @@ module.exports = (app) => {
 
     //express-validator 
     app.post('/livros', [ 
-        check('titulo').isLength({ min: 5 }).withMessage('O titulo precisa ter no minimo  caracteres'), 
+        check('titulo').isLength({ min: 5 }).withMessage('O titulo precisa ter no minimo 5 caracteres!'), 
         check('preco').isCurrency().withMessage( 'o preco precisar ter um valor monetario valido! ') ], ( req, resp ) => {
         
         console.log(req.body);
@@ -57,7 +50,7 @@ module.exports = (app) => {
             return resp.marko(
                 require( '../views/livros/form/form.marko'),
                 { 
-                    livro: {}, 
+                    livro: req.body, 
                     errosValidacao: erros.array()
 
                     
